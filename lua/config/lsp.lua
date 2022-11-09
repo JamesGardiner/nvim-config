@@ -19,7 +19,7 @@ local custom_attach = function(client, bufnr)
   map("n", "<C-]>", vim.lsp.buf.definition)
   map("n", "K", vim.lsp.buf.hover)
   map("n", "<C-k>", vim.lsp.buf.signature_help)
-  map("n", "<space>rn", vim.lsp.buf.rename, { desc = "varialbe rename" })
+  map("n", "<space>rn", vim.lsp.buf.rename, { desc = "variable rename" })
   map("n", "gr", vim.lsp.buf.references, { desc = "show references" })
   map("n", "[d", diagnostic.goto_prev, { desc = "previous diagnostic" })
   map("n", "]d", diagnostic.goto_next, { desc = "next diagnostic" })
@@ -62,7 +62,7 @@ local custom_attach = function(client, bufnr)
     end,
   })
 
-  -- The blow command will highlight the current variable and its usages in the buffer.
+  -- The below command will highlight the current variable and its usages in the buffer.
   if client.server_capabilities.documentHighlightProvider then
     vim.cmd([[
       hi! link LspReferenceRead Visual
@@ -71,18 +71,18 @@ local custom_attach = function(client, bufnr)
     ]])
 
     local gid = api.nvim_create_augroup("lsp_document_highlight", { clear = true })
-    api.nvim_create_autocmd("CursorHold" , {
+    api.nvim_create_autocmd("CursorHold", {
       group = gid,
       buffer = bufnr,
-      callback = function ()
+      callback = function()
         lsp.buf.document_highlight()
       end
     })
 
-    api.nvim_create_autocmd("CursorMoved" , {
+    api.nvim_create_autocmd("CursorMoved", {
       group = gid,
       buffer = bufnr,
-      callback = function ()
+      callback = function()
         lsp.buf.clear_references()
       end
     })
@@ -98,14 +98,33 @@ local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 local lspconfig = require("lspconfig")
 
+if utils.executable('marksman') then
+  lspconfig.marksman.setup {
+  }
+else
+  vim.notify("marksman not found!", vim.log.levels.WARN, { title = 'Nvim-config' })
+end
+
+-- set up pyright language server
 if utils.executable('pyright') then
-  lspconfig.pyright.setup{
+  lspconfig.pyright.setup {
     on_attach = custom_attach,
     capabilities = capabilities
 
   }
 else
-  vim.notify("pyright not found!", vim.log.levels.WARN, {title = 'Nvim-config'})
+  vim.notify("pyright not found!", vim.log.levels.WARN, { title = 'Nvim-config' })
+end
+
+-- set up typescript-language-server
+if utils.executable('typescript-language-server') then
+  lspconfig.tsserver.setup {
+    on_attach = custom_attach,
+    filetypes = { "typescript", "typescriptreact", "typescript.tsx" },
+    cmd = { "typescript-language-server", "--stdio" }
+  }
+else
+  vim.notify("tsserver not found!", vim.log.levels.WARN, { title = 'Nvim-config' })
 end
 
 if utils.executable("clangd") then
