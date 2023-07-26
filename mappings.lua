@@ -18,6 +18,7 @@ M.general = {
 M.telescope = {
 	n = {
 		["<leader>fd"] = { "<cmd> Telescope lsp_document_symbols <CR>", "Find document symbols" },
+		["<leader>fr"] = { "<cmd> Telescope lsp_references <CR>", "Find symbol references" },
 	},
 }
 
