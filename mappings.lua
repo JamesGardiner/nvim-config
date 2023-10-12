@@ -22,6 +22,13 @@ M.telescope = {
 	},
 }
 
+M.diffview = {
+	n = {
+		["<leader>gd"] = { "<cmd> DiffviewOpen <CR>", "Open Diffview" },
+		["<leader>gx"] = { "<cmd> DiffviewClose <CR>", "Close Diffview" },
+	},
+}
+
 M.gitsigns = {
 	plugin = true,
 	n = {
@@ -53,43 +60,43 @@ M.gitsigns = {
 			function()
 				require("gitsigns").undo_stage_hunk()
 			end,
-      "Undo stage hunk"
+			"Undo stage hunk",
 		},
 		["<leader>hR"] = {
 			function()
 				require("gitsigns").reset_buffer()
 			end,
-      "Reset buffer"
+			"Reset buffer",
 		},
 		["<leader>hb"] = {
 			function()
 				require("gitsigns").blame_line({ full = true })
 			end,
-      "Blame line"
+			"Blame line",
 		},
 		["<leader>tb"] = {
 			function()
 				require("gitsigns").toggle_current_line_blame()
 			end,
-      "Toggle current line blame"
+			"Toggle current line blame",
 		},
 		["<leader>hd"] = {
 			function()
 				require("gitsigns").diffthis()
 			end,
-      "Diff this"
+			"Diff this",
 		},
 		["<leader>hD"] = {
 			function()
 				require("gitsigns").diffthis("~")
 			end,
-      "Diff all"
+			"Diff all",
 		},
 		["<leader>td"] = {
 			function()
 				require("gitsigns").toggle_deleted()
 			end,
-      "Toggle deleted"
+			"Toggle deleted",
 		},
 	},
 	v = {
@@ -97,13 +104,13 @@ M.gitsigns = {
 			function()
 				require("gitsigns").stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
 			end,
-      "Stage selected hunk"
+			"Stage selected hunk",
 		},
 		["<leader>hr"] = {
 			function()
 				require("gitsigns").reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
 			end,
-      "Reset selected hunk"
+			"Reset selected hunk",
 		},
 	},
 }
